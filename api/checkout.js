@@ -42,11 +42,15 @@ module.exports = async (req, res) => {
       payment_method_types: ["card"],
       line_items,
       mode: "payment",
-      // Stripe redirige aquí cuando el pago es correcto
+      phone_number_collection: {
+        enabled: true,
+      },
+      billing_address_collection: "required",
+      shipping_address_collection: {
+        allowed_countries: ["ES"],
+      },
       success_url: `${process.env.NEXT_PUBLIC_URL}/tienda/success.html`,
-      // Stripe redirige aquí si el usuario cancela
       cancel_url: `${process.env.NEXT_PUBLIC_URL}/tienda/`,
-      // Stripe genera la factura automáticamente
       invoice_creation: { enabled: true },
     });
 
