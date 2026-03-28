@@ -64,7 +64,9 @@ function openModal(id) {
 
   // Imágenes
   document.getElementById("modal-imgs").innerHTML = modalProduct.imagenes.map(img => `
-    <img src="${img}" alt="${modalProduct.nombre}" onerror="this.style.display='none'">
+    <img src="${img}" alt="${modalProduct.nombre}"
+      onclick="openLightbox('${img}')"
+      onerror="this.style.display='none'">
   `).join("");
 
   // Selector de colores
@@ -167,4 +169,31 @@ function renderCart() {
       </div>
     </div>
   `).join("");
+}
+
+/* =====================
+   LIGHTBOX DE IMAGEN
+   ===================== */
+
+function openLightbox(src) {
+  const lb = document.createElement("div");
+  lb.id = "lightbox";
+  lb.style.cssText = `
+    position: fixed; inset: 0; z-index: 50;
+    background: rgba(0,0,0,0.92);
+    display: flex; align-items: center; justify-content: center;
+    cursor: zoom-out;
+  `;
+
+  const img = document.createElement("img");
+  img.src = src;
+  img.style.cssText = `
+    max-width: 90vw; max-height: 90vh;
+    object-fit: contain;
+    border: 1px solid rgba(204,0,0,0.3);
+  `;
+
+  lb.appendChild(img);
+  lb.addEventListener("click", () => lb.remove());
+  document.body.appendChild(lb);
 }
